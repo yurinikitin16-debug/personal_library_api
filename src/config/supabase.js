@@ -1,14 +1,22 @@
-const path = require('path');
+let envPath = null;
 
-const envPath = path.resolve(__dirname, '../../.env');
+if (typeof __dirname !== 'undefined') {
+  const path = require('path');
 
-require('dotenv').config({
-  path: envPath,
-  quiet: true
-});
+  envPath = path.resolve(__dirname, '../../.env');
 
-let supabaseUrl = (process.env.SUPABASE_URL || '').trim();
-let supabaseApiKey = (process.env.SUPABASE_API_KEY || process.env.SUPABASE_ANON_KEY || '').trim();
+  require('dotenv').config({
+    path: envPath,
+    quiet: true
+  });
+}
+
+let supabaseUrl = (typeof process !== 'undefined' && process.env ? process.env.SUPABASE_URL || '' : '').trim();
+let supabaseApiKey = (
+  typeof process !== 'undefined' && process.env
+    ? process.env.SUPABASE_API_KEY || process.env.SUPABASE_ANON_KEY || ''
+    : ''
+).trim();
 
 function setSupabaseConfig(config) {
   supabaseUrl = (config.supabaseUrl || supabaseUrl || '').trim();
