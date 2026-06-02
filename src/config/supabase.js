@@ -7,14 +7,29 @@ require('dotenv').config({
   quiet: true
 });
 
-const supabaseUrl = (process.env.SUPABASE_URL || '').trim();
-const supabaseApiKey = (process.env.SUPABASE_API_KEY || process.env.SUPABASE_ANON_KEY || '').trim();
+let supabaseUrl = (process.env.SUPABASE_URL || '').trim();
+let supabaseApiKey = (process.env.SUPABASE_API_KEY || process.env.SUPABASE_ANON_KEY || '').trim();
 
-const headers = {
-  apikey: supabaseApiKey,
-  Authorization: `Bearer ${supabaseApiKey}`,
-  'Content-Type': 'application/json'
-};
+function setSupabaseConfig(config) {
+  supabaseUrl = (config.supabaseUrl || supabaseUrl || '').trim();
+  supabaseApiKey = (config.supabaseApiKey || config.supabaseAnonKey || supabaseApiKey || '').trim();
+}
+
+function getSupabaseConfig() {
+  return {
+    supabaseUrl,
+    supabaseApiKey
+  };
+}
+
+function getHeaders(extraHeaders = {}) {
+  return {
+    apikey: supabaseApiKey,
+    Authorization: `Bearer ${supabaseApiKey}`,
+    'Content-Type': 'application/json',
+    ...extraHeaders
+  };
+}
 
 function validateSupabaseConfig() {
   if (!supabaseUrl || !supabaseUrl.startsWith('http')) {
@@ -28,8 +43,8 @@ function validateSupabaseConfig() {
 
 module.exports = {
   envPath,
-  supabaseUrl,
-  supabaseApiKey,
-  headers,
+  getHeaders,
+  getSupabaseConfig,
+  setSupabaseConfig,
   validateSupabaseConfig
 };

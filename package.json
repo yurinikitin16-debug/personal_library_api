@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node src/server.js"
+    "dev": "node src/server.js",
+    "worker:dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "private": true,
   "dependencies": {
@@ -13,6 +15,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "hono": "^4.8.12",
     "zod": "^4.1.13"
   }
 }

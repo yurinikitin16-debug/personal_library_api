@@ -1,0 +1,7 @@
+name = "library-api"
+main = "src/worker.js"
+compatibility_date = "2026-06-02"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+CLIENT_ORIGIN = "http://localhost:4200"
